@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="navbar">
-      <Books />
+      <Books :categories="categories" />
     </div>
   </div>
 </template>
@@ -11,9 +11,24 @@ import Books from "./components/Books.vue";
 
 export default {
   name: "app",
+  data() {
+    return {
+      categories: [],
+    };
+  },
   components: {
-    Books
-  }
+    Books,
+  },
+  methods: {},
+  async created() {
+    const res = await fetch(
+      `https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=${
+        process.env.VUE_APP_NYTIMES_API_KEY
+      }`
+    );
+    const data = await res.json();
+    this.categories = data.results.slice(0, 10);
+  },
 };
 </script>
 
@@ -27,5 +42,4 @@ export default {
   position: absolute;
   z-index: 0;
 }
-
 </style>

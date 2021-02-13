@@ -4,19 +4,64 @@
       <div class="heading">
         <h4 class="title">NYTimes Books</h4>
       </div>
-      <div class="search">
-        <input type="text" class="form-control" placeholder="Search by title" />
-      </div>
       <div class="content">
         <!-- ADD CONTENT HERE -->
+        <form @submit.prevent="getBooks" class="search">
+          <select v-model="selected" name="categories" id="categories">
+            <option
+              v-for="category in categories"
+              :value="category.list_name_encoded"
+              :key="category.list_name_encoded"
+              >{{ category.display_name }}</option
+            >
+          </select>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by title"
+            v-model="text"
+          />
+          <button type="submit">Search</button>
+        </form>
+        <div v-for="book in books" :key="book.primary_isbn13">
+          <BookItem :book="book" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import BookItem from "./BookItem";
 export default {
-  name: "Books"
+  name: "Books",
+  props: ["categories"],
+  components: {
+    BookItem,
+  },
+  data() {
+    return {
+      text: "",
+      selected: "",
+      books: [],
+    };
+  },
+  methods: {
+    async getBooks(e) {
+      const res = await fetch(
+        `https://api.nytimes.com/svc/books/v3/lists/current/${
+          this.selected
+        }.json?api-key=${process.env.VUE_APP_NYTIMES_API_KEY}`
+      );
+      const data = await res.json();
+      const result = this.text
+        ? data.results.books.filter((bk) =>
+            bk.title.toLowerCase().includes(this.text.toLowerCase())
+          )
+        : [{ title: "No Result found" }];
+      this.books = result;
+    },
+  },
 };
 </script>
 
