@@ -41,6 +41,7 @@ export default {
   padding: 1rem 0.5rem;
   margin: 0.5rem auto;
   height: 100%;
+  max-width: 90vw;
 
   &:hover {
     box-shadow: 2px 2px 5px gray;

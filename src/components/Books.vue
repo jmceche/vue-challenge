@@ -1,8 +1,10 @@
 <template>
   <div class="results">
     <NotFound v-if="books.length === 0" />
-    <div v-else v-for="book in books" :key="book.primary_isbn13">
-      <BookItem :book="book" />
+    <div class="books" v-else>
+      <div v-for="book in books" :key="book.primary_isbn13">
+        <BookItem :book="book" />
+      </div>
     </div>
   </div>
 </template>
@@ -22,11 +24,17 @@ export default {
 
 <style scoped lang="scss">
 @import "../styles/mixins";
-.results {
+
+/* .results {
+  margin: auto;
+}
+ */
+.books {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: auto;
   @include responsive(tablet) {
     width: 80%;
     display: grid;

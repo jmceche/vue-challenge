@@ -1,5 +1,5 @@
 <template>
-  <img src="../assets/loader.svg" alt="loader" />
+  <img src="/loader.svg" alt="loader" />
 </template>
 
 <script>

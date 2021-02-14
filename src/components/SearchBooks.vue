@@ -1,6 +1,11 @@
 <template>
   <form @submit.prevent="getBooks">
-    <select v-model="category" name="categories" id="categories">
+    <select
+      v-model="category"
+      name="categories"
+      id="categories"
+      @change="resetTitle"
+    >
       <option default value="">--Select a Category--</option>
       <option
         v-for="category in categories"
@@ -36,6 +41,9 @@ export default {
         category: this.category,
         title: this.title,
       });
+    },
+    resetTitle() {
+      this.title = "";
     },
   },
 };
