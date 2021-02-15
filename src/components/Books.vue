@@ -2,9 +2,7 @@
   <div class="results">
     <NotFound v-if="books.length === 0" />
     <div class="books" v-else>
-      <div v-for="book in books" :key="book.primary_isbn13">
-        <BookItem :book="book" />
-      </div>
+      <BookItem :book="book" v-for="book in books" :key="book.primary_isbn13" />
     </div>
   </div>
 </template>
@@ -18,7 +16,9 @@ export default {
     BookItem,
     NotFound,
   },
-  props: ["books"],
+  props: {
+    books: Array,
+  },
 };
 </script>
 

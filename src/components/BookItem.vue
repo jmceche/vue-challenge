@@ -22,7 +22,9 @@
 <script>
 export default {
   name: "BookItem",
-  props: ["book"],
+  props: {
+    book: Object,
+  },
   computed: {
     capitalizedTitle() {
       return this.book.title.toLowerCase();

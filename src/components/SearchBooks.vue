@@ -4,7 +4,7 @@
       v-model="category"
       name="categories"
       id="categories"
-      @change="resetTitle"
+      @change="clearSearch"
     >
       <option default value="">--Select a Category--</option>
       <option
@@ -19,7 +19,7 @@
       class="form-control"
       placeholder="Search by title"
       v-model="title"
-      :class="{ hide: !category }"
+      v-show="category"
       required
     />
   </form>
@@ -28,7 +28,9 @@
 <script>
 export default {
   name: "SearchBooks",
-  props: ["categories"],
+  props: {
+    categories: Array,
+  },
   data() {
     return {
       category: "",
@@ -42,8 +44,9 @@ export default {
         title: this.title,
       });
     },
-    resetTitle() {
+    clearSearch() {
       this.title = "";
+      this.$emit("clear-books");
     },
   },
 };
@@ -80,9 +83,5 @@ select {
 }
 input {
   @include inputs;
-}
-
-.hide {
-  display: none;
 }
 </style>
