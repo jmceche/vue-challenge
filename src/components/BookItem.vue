@@ -2,7 +2,7 @@
   <div class="card">
     <a
       :href="
-        `https://www.google.com/search?q=${capitalizedTitle}+${book.author}`
+        `https://www.google.com/search?q=${capitalizedTitle}+${bookItem.author}`
       "
       target="_blank"
     >
@@ -11,10 +11,10 @@
           {{ capitalizedTitle }}
         </h2>
         <h4>
-          {{ book.author }}
+          {{ bookItem.author }}
         </h4>
       </div>
-      <p class="description">{{ book.description }}</p>
+      <p class="description">{{ bookItem.description }}</p>
     </a>
   </div>
 </template>
@@ -23,11 +23,11 @@
 export default {
   name: "BookItem",
   props: {
-    book: Object,
+    bookItem: Object,
   },
   computed: {
     capitalizedTitle() {
-      return this.book.title.toLowerCase();
+      return this.bookItem.title.toLowerCase();
     },
   },
 };
@@ -43,7 +43,7 @@ export default {
   padding: 1rem 0.5rem;
   margin: 0.5rem auto;
   height: 100%;
-  max-width: 90vw;
+  width: 90vw;
 
   &:hover {
     box-shadow: 2px 2px 5px gray;
@@ -51,6 +51,8 @@ export default {
 
   @include responsive(tablet) {
     margin: 0;
+    width: auto;
+    max-width: 90vw;
   }
 
   > a {

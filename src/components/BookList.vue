@@ -2,7 +2,11 @@
   <div class="results">
     <NotFound v-if="books.length === 0" />
     <div class="books" v-else>
-      <BookItem :book="book" v-for="book in books" :key="book.primary_isbn13" />
+      <BookItem
+        :book-item="book"
+        v-for="book in books"
+        :key="book.primary_isbn13"
+      />
     </div>
   </div>
 </template>
@@ -11,7 +15,7 @@
 import BookItem from "./BookItem";
 import NotFound from "./NotFound";
 export default {
-  name: "Books",
+  name: "BookList",
   components: {
     BookItem,
     NotFound,
@@ -24,11 +28,9 @@ export default {
 
 <style scoped lang="scss">
 @import "../styles/mixins";
-
-/* .results {
-  margin: auto;
+.results {
+  width: 100%;
 }
- */
 .books {
   display: flex;
   flex-direction: column;
@@ -39,7 +41,7 @@ export default {
     width: 80%;
     display: grid;
     grid-gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(250px, auto));
+    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
     align-items: stretch;
   }
 }

@@ -7,14 +7,16 @@
         @search-books="getBooks"
         @clear-books="clearBooks"
       />
+      <ErrorMessage v-if="error" :error="error" />
       <Loader v-if="loading" />
-      <Books :books="books" v-if="books && !loading" />
+      <BookList :books="books" v-if="books && !loading" />
     </div>
   </div>
 </template>
 
 <script>
-import Books from "./components/Books";
+import ErrorMessage from "./components/ErrorMessage";
+import BookList from "./components/BookList";
 import SearchBooks from "./components/SearchBooks";
 import Navbar from "./components/Navbar";
 import Loader from "./components/Loader";
@@ -27,10 +29,12 @@ export default {
       categories: [],
       books: null,
       loading: false,
+      error: null,
     };
   },
   components: {
-    Books,
+    ErrorMessage,
+    BookList,
     SearchBooks,
     Navbar,
     Loader,
@@ -38,27 +42,39 @@ export default {
   methods: {
     async getBooks({ category, title }) {
       this.loading = true;
-      const res = await axios.get(
-        `https://api.nytimes.com/svc/books/v3/lists/current/${category}.json?api-key=${
-          process.env.VUE_APP_NYTIMES_API_KEY
-        }`
-      );
-      this.loading = false;
-      this.books = res.data.results.books.filter((bk) =>
-        bk.title.toLowerCase().includes(title.toLowerCase())
-      );
+      try {
+        const res = await axios.get(
+          `https://api.nytimes.com/svc/books/v3/lists/current/${category}.json?api-key=${
+            process.env.VUE_APP_NYTIMES_API_KEY
+          }`
+        );
+        this.loading = false;
+        this.books = res.data.results.books.filter((bk) =>
+          bk.title.toLowerCase().includes(title.toLowerCase())
+        );
+      } catch (error) {
+        this.loading = false;
+        this.error = error.message;
+        setTimeout(() => {
+          this.error = "";
+        }, 5000);
+      }
     },
     clearBooks() {
       this.books = null;
     },
   },
   async created() {
-    const res = await axios.get(
-      `https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=${
-        process.env.VUE_APP_NYTIMES_API_KEY
-      }`
-    );
-    this.categories = res.data.results.slice(0, 10);
+    try {
+      const res = await axios.get(
+        `https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=${
+          process.env.VUE_APP_NYTIMES_API_KEY
+        }`
+      );
+      this.categories = res.data.results.slice(0, 10);
+    } catch (error) {
+      this.error = error.message;
+    }
   },
 };
 </script>

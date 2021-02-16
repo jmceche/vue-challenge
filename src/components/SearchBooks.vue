@@ -5,6 +5,7 @@
       name="categories"
       id="categories"
       @change="clearSearch"
+      :disabled="!categories.length"
     >
       <option default value="">--Select a Category--</option>
       <option
@@ -19,7 +20,7 @@
       class="form-control"
       placeholder="Search by title"
       v-model="title"
-      v-show="category"
+      :disabled="!category"
       required
     />
   </form>
