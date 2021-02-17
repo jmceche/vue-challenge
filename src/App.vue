@@ -48,16 +48,16 @@ export default {
             process.env.VUE_APP_NYTIMES_API_KEY
           }`
         );
-        this.loading = false;
         this.books = res.data.results.books.filter((bk) =>
           bk.title.toLowerCase().includes(title.toLowerCase())
         );
       } catch (error) {
-        this.loading = false;
         this.error = error.message;
         setTimeout(() => {
           this.error = "";
         }, 5000);
+      } finally {
+        this.loading = false;
       }
     },
     clearBooks() {
