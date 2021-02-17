@@ -15,12 +15,12 @@
 </template>
 
 <script>
-import ErrorMessage from "./components/ErrorMessage";
-import BookList from "./components/BookList";
-import SearchBooks from "./components/SearchBooks";
-import Navbar from "./components/Navbar";
-import Loader from "./components/Loader";
-import axios from "axios";
+import ErrorMessage from "./components/ErrorMessage"
+import BookList from "./components/BookList"
+import SearchBooks from "./components/SearchBooks"
+import Navbar from "./components/Navbar"
+import Loader from "./components/Loader"
+import axios from "axios"
 
 export default {
   name: "app",
@@ -30,7 +30,7 @@ export default {
       books: null,
       loading: false,
       error: null,
-    };
+    }
   },
   components: {
     ErrorMessage,
@@ -41,27 +41,26 @@ export default {
   },
   methods: {
     async getBooks({ category, title }) {
-      this.loading = true;
+      this.error = null
+      this.clearBooks()
+      this.loading = true
       try {
         const res = await axios.get(
           `https://api.nytimes.com/svc/books/v3/lists/current/${category}.json?api-key=${
             process.env.VUE_APP_NYTIMES_API_KEY
           }`
-        );
+        )
         this.books = res.data.results.books.filter((bk) =>
           bk.title.toLowerCase().includes(title.toLowerCase())
-        );
+        )
       } catch (error) {
-        this.error = error.message;
-        setTimeout(() => {
-          this.error = "";
-        }, 5000);
+        this.error = error.message
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
     clearBooks() {
-      this.books = null;
+      this.books = null
     },
   },
   async created() {
@@ -70,13 +69,13 @@ export default {
         `https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=${
           process.env.VUE_APP_NYTIMES_API_KEY
         }`
-      );
-      this.categories = res.data.results.slice(0, 10);
+      )
+      this.categories = res.data.results.slice(0, 10)
     } catch (error) {
-      this.error = error.message;
+      this.error = error.message
     }
   },
-};
+}
 </script>
 
 <style lang="scss">
