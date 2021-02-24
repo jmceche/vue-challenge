@@ -27,9 +27,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../styles/mixins";
 .results {
   width: 100%;
+  margin-bottom: 5rem;
 }
 .books {
   display: flex;

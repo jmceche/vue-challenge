@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <Navbar />
-    <div class="main">
+      <div class="main" v-if="categories.length>0">
       <SearchBooks
         :categories="categories"
         @search-books="getBooks"
         @clear-books="clearBooks"
       />
-      <ErrorMessage v-if="error" :error="error" />
       <Loader v-if="loading" />
       <BookList :books="books" v-if="books && !loading" />
-    </div>
+      </div>
+      <div class="main" v-if="error">
+        <ErrorMessage v-if="error" :error="error" />
+      </div>
+
   </div>
 </template>
 

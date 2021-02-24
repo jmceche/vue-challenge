@@ -34,7 +34,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/mixins";
 
 .card {
   background: #ace6f6;

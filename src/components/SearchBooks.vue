@@ -54,7 +54,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/mixins";
 
 @mixin inputs {
   width: 100%;
